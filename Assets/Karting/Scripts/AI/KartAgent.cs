@@ -4,6 +4,7 @@ using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using System;
 
 namespace KartGame.AI
 {
@@ -11,7 +12,7 @@ namespace KartGame.AI
     /// Sensors hold information such as the position of rotation of the origin of the raycast and its hit threshold
     /// to consider a "crash".
     /// </summary>
-    [System.Serializable]
+    [Serializable]
     public struct Sensor
     {
         public Transform Transform;
@@ -35,15 +36,14 @@ namespace KartGame.AI
     /// </summary>
     public class KartAgent : Agent, IInput
     {
-#region Training Modes
+        #region Training Modes
         [Tooltip("Are we training the agent or is the agent production ready?")]
         public AgentMode Mode = AgentMode.Training;
         [Tooltip("What is the initial checkpoint the agent will go to? This value is only for inferencing.")]
         public ushort InitCheckpointIndex;
+        #endregion
 
-#endregion
-
-#region Senses
+        #region Senses
         [Header("Observation Params")]
         [Tooltip("What objects should the raycasts hit and detect?")]
         public LayerMask Mask;
@@ -58,10 +58,11 @@ namespace KartGame.AI
         [Tooltip("Would the agent need a custom transform to be able to raycast and hit the track? " +
             "If not assigned, then the root transform will be used.")]
         public Transform AgentSensorTransform;
-#endregion
+        #endregion
 
-#region Rewards
-        [Header("Rewards"), Tooltip("What penatly is given when the agent crashes?")]
+        #region Rewards
+        [Header("Rewards")]
+        [Tooltip("What penatly is given when the agent crashes?")]
         public float HitPenalty = -1f;
         [Tooltip("How much reward is given when the agent successfully passes the checkpoints?")]
         public float PassCheckpointReward;
@@ -81,12 +82,13 @@ namespace KartGame.AI
         public LayerMask TrackMask;
         [Tooltip("How far should the ray be when casted? For larger karts - this value should be larger too.")]
         public float GroundCastDistance;
-#endregion
+        #endregion
 
-#region Debugging
-        [Header("Debug Option")] [Tooltip("Should we visualize the rays that the agent draws?")]
+        #region Debugging
+        [Header("Debug Option")]
+        [Tooltip("Should we visualize the rays that the agent draws?")]
         public bool ShowRaycasts;
-#endregion
+        #endregion
 
         ArcadeKart m_Kart;
         bool m_Acceleration;
@@ -127,7 +129,7 @@ namespace KartGame.AI
             switch (Mode)
             {
                 case AgentMode.Inferencing:
-                    if (ShowRaycasts) 
+                    if (ShowRaycasts)
                         Debug.DrawRay(transform.position, Vector3.down * GroundCastDistance, Color.cyan);
 
                     // We want to place the agent back on the track if the agent happens to launch itself outside of the track.
@@ -140,7 +142,7 @@ namespace KartGame.AI
                         transform.position = checkpoint.position;
                         m_Kart.Rigidbody.velocity = default;
                         m_Steering = 0f;
-						m_Acceleration = m_Brake = false; 
+                        m_Acceleration = m_Brake = false;
                     }
 
                     break;
@@ -180,7 +182,7 @@ namespace KartGame.AI
             if (value > 0)
             {
                 return 1;
-            } 
+            }
             if (value < 0)
             {
                 return -1;
@@ -216,7 +218,7 @@ namespace KartGame.AI
                 if (ShowRaycasts)
                 {
                     Debug.DrawRay(AgentSensorTransform.position, xform.forward * current.RayDistance, Color.green);
-                    Debug.DrawRay(AgentSensorTransform.position, xform.forward * current.HitValidationDistance, 
+                    Debug.DrawRay(AgentSensorTransform.position, xform.forward * current.HitValidationDistance,
                         Color.red);
 
                     if (hit && hitInfo.distance < current.HitValidationDistance)

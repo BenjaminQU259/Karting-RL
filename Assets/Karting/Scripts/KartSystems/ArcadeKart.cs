@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.VFX;
 
 namespace KartGame.KartSystems
 {
@@ -10,7 +9,7 @@ namespace KartGame.KartSystems
         [System.Serializable]
         public class StatPowerup
         {
-            public ArcadeKart.Stats modifiers;
+            public Stats modifiers;
             public string PowerUpID;
             public float ElapsedTime;
             public float MaxTime;
@@ -76,19 +75,20 @@ namespace KartGame.KartSystems
         public float AirPercent    { get; private set; }
         public float GroundPercent { get; private set; }
 
-        public ArcadeKart.Stats baseStats = new ArcadeKart.Stats
-        {
-            TopSpeed            = 10f,
-            Acceleration        = 5f,
-            AccelerationCurve   = 4f,
-            Braking             = 10f,
-            ReverseAcceleration = 5f,
-            ReverseSpeed        = 5f,
-            Steer               = 5f,
-            CoastingDrag        = 4f,
-            Grip                = .95f,
-            AddedGravity        = 1f,
-        };
+        public Stats baseStats =
+            new()
+            {
+                TopSpeed = 10f,
+                Acceleration = 5f,
+                AccelerationCurve = 4f,
+                Braking = 10f,
+                ReverseAcceleration = 5f,
+                ReverseSpeed = 5f,
+                Steer = 5f,
+                CoastingDrag = 4f,
+                Grip = .95f,
+                AddedGravity = 1f,
+            };
 
         [Header("Vehicle Visual")] 
         public List<GameObject> m_VisualWheels;
@@ -167,13 +167,13 @@ namespace KartGame.KartSystems
         float m_CurrentGrip = 1.0f;
         float m_DriftTurningPower = 0.0f;
         float m_PreviousGroundPercent = 1.0f;
-        readonly List<(GameObject trailRoot, WheelCollider wheel, TrailRenderer trail)> m_DriftTrailInstances = new List<(GameObject, WheelCollider, TrailRenderer)>();
-        readonly List<(WheelCollider wheel, float horizontalOffset, float rotation, ParticleSystem sparks)> m_DriftSparkInstances = new List<(WheelCollider, float, float, ParticleSystem)>();
+        readonly List<(GameObject trailRoot, WheelCollider wheel, TrailRenderer trail)> m_DriftTrailInstances = new();
+        readonly List<(WheelCollider wheel, float horizontalOffset, float rotation, ParticleSystem sparks)> m_DriftSparkInstances = new();
 
         // can the kart move?
         bool m_CanMove = true;
-        List<StatPowerup> m_ActivePowerupList = new List<StatPowerup>();
-        ArcadeKart.Stats m_FinalStats;
+        List<StatPowerup> m_ActivePowerupList = new();
+        Stats m_FinalStats;
 
         Quaternion m_LastValidRotation;
         Vector3 m_LastValidPosition;
