@@ -1,17 +1,19 @@
 ﻿# Karting-RL Model Training
 
-- [Environment Preparation](#environment_preparation)
-- [Model Training](#model_training)
-- [References](#references)
+*Updated on 2023.10.12.*
 
-## Environment Preparation{#environment_preparation}
+- [Environment Preparation](#Environment Preparation)
+- [Model Training](#Model Training)
+- [References](#References)
+
+## Environment Preparation
 
 On Windows:
 
-- [Python Setup](#python_setup)
-- [Unity Setup](#unity_setup)
+- [Python Setup](#Python Setup)
+- [Unity Setup](#Unity Setup)
 
-### Python Setup{#python_setup}
+### Python Setup
 
 We recommend using [Anaconda](https://www.anaconda.com/download) to set up Python environment:
 
@@ -45,33 +47,33 @@ We recommend using [Anaconda](https://www.anaconda.com/download) to set up Pytho
 
 If you prefer not to use Anaconda, just install above packages in your Python 3.8 with the correct order and versions.
 
-### Unity Setup{#unity_setup}
+### Unity Setup
 
 1. Download and install [Unity](https://unity.com/download). Recommended editor version: 2021.3 (LTS) or 2022.3 (LTS).
 2. Open the cloned Karting-RL project in the Unity Editor.
 3. Open **Window** ↦ **Package Manager**, make sure the `ML Agents` Unity package is installed.
 
-## Model Training{#model_training}
+## Model Training
 
-- [Load Training Scene](#load_training_scene)
-- [Adjust Training Configurations (Optional)](#adjust_training_configurations)
-- [Start Training Session](#start_training_session)
-- [Visualize Training Results](#visualize_training_results)
-- [Acquire Trained Model](#acquire_trained_model)
+- [Load Training Scene](#Load Training Scene)
+- [Adjust Training Configurations (Optional)](#Adjust Training Configurations (Optional))
+- [Start Training Session](#Start Training Session)
+- [Visualize Training Results](#Visualize Training Results)
+- [Acquire Trained Model](#Acquire Trained Model)
 
-### Load Training Scene{#load_training_scene}
+### Load Training Scene
 
 1. Open the Karting-RL project in the Unity Editor.
 
 2. In the **Project** window, go to the `Assets/Karting/Scenes/MLTraining` folder, open `KartClassic_Training.unity`.
 
-### Adjust Training Configurations (Optional){#adjust_training_configurations}
+### Adjust Training Configurations (Optional)
 
 Model training configuration file location: `Karting-RL\Assets\Karting\Prefabs\AI\kart_trainer_config.yaml`.
 
 Refer to [Training Configuration File](https://unity-technologies.github.io/ml-agents/Training-Configuration-File/) for detailed explanations.
 
-### Start Training Session{#start_training_session}
+### Start Training Session
 
 1. Open a new Anaconda Prompt or Anaconda Powershell Prompt.
 
@@ -100,7 +102,7 @@ Refer to [Training Configuration File](https://unity-technologies.github.io/ml-a
 
    Press the Play button in the Unity Editor to start training.
 
-### Visualize Training Results{#visualize_training_results}
+### Visualize Training Results
 
 Once the training starts, a `results` folder will be generated and updated as the training progresses. You can visualize training results by using TensorBoard:
 
@@ -111,11 +113,11 @@ tensorboard --logdir results
 
 Then navigate to `localhost:6006` in your browser to view the TensorBoard summary statistics.
 
-### Acquire Trained Model{#acquire_trained_model}
+### Acquire Trained Model
 
 If the training session ends or is interrupted, the model file `.onnx` will be saved in the `results` folder. Checkpoints are also saved as models.
 
-## References{#references}
+## References
 
 [Unity ML-Agents Toolkit Documentation](https://unity-technologies.github.io/ml-agents/)
 
