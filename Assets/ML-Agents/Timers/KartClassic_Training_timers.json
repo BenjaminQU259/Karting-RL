@@ -1,0 +1,117 @@
+{
+    "children": {
+        "AgentAct": {
+            "children": {
+                "AgentInfo.ToProto": {
+                    "children": {
+                        "GenerateSensorData": {
+                            "children": null,
+                            "count": 342,
+                            "self": 0.0034625,
+                            "total": 0.0034625
+                        }
+                    },
+                    "count": 342,
+                    "self": 0.0014932,
+                    "total": 0.0049557
+                }
+            },
+            "count": 8895668,
+            "self": 52.5613856,
+            "total": 52.5663412
+        },
+        "AgentInfo.ToProto": {
+            "children": {
+                "GenerateSensorData": {
+                    "children": null,
+                    "count": 48205,
+                    "self": 0.8386799,
+                    "total": 0.8386799
+                }
+            },
+            "count": 48205,
+            "self": 0.3108877,
+            "total": 1.1495676
+        },
+        "AgentSendState": {
+            "children": {
+                "CollectObservations": {
+                    "children": null,
+                    "count": 1779134,
+                    "self": 41.0501312,
+                    "total": 41.0501296
+                },
+                "RequestDecision": {
+                    "children": {
+                        "AgentInfo.ToProto": {
+                            "children": {
+                                "GenerateSensorData": {
+                                    "children": null,
+                                    "count": 1779134,
+                                    "self": 28.0416704,
+                                    "total": 28.0416694
+                                }
+                            },
+                            "count": 1779134,
+                            "self": 9.8076696,
+                            "total": 37.849339
+                        }
+                    },
+                    "count": 1779134,
+                    "self": 7.8138976,
+                    "total": 45.6632364
+                },
+                "WriteActionMask": {
+                    "children": null,
+                    "count": 1779134,
+                    "self": 1.1330055,
+                    "total": 1.1330055
+                }
+            },
+            "count": 8895668,
+            "self": 15.496224,
+            "total": 103.3425951
+        },
+        "DecideAction": {
+            "children": null,
+            "count": 8895668,
+            "self": 14546.2378496,
+            "total": 14546.2370841
+        },
+        "InitializeActuators": {
+            "children": null,
+            "count": 1,
+            "self": 0.0016985,
+            "total": 0.0016985
+        },
+        "InitializeSensors": {
+            "children": null,
+            "count": 1,
+            "self": 0.0020039,
+            "total": 0.0020039
+        }
+    },
+    "count": 1,
+    "gauges": {
+        "ArcadeDriver.CumulativeReward": {
+            "count": 48547,
+            "max": 61.4319649,
+            "min": -22.2107048,
+            "runningAverage": -2.96315551,
+            "value": -1.255439,
+            "weightedAverage": -1.63664484
+        }
+    },
+    "metadata": {
+        "com.unity.ml-agents_version": "2.0.1",
+        "command_line_arguments": "C:\\Program Files\\Unity\\Hub\\Editor\\2022.3.9f1\\Editor\\Unity.exe -projectpath C:\\Users\\mqu2\\Work\\CodingLeague\\2023.11\\Karting-RL -useHub -hubIPC -cloudEnvironment production -licensingIpc LicenseClient-MQu2 -hubSessionId e27e3b9b-4135-486f-8fd0-4f2db2e9648a -accessToken oeqqIjarzcjtdvXVNUNKSFgU13yDPMSdFbz4XWHua5A01ef",
+        "communication_protocol_version": "1.5.0",
+        "end_time_seconds": "1696773726",
+        "scene_name": "KartClassic_Training",
+        "start_time_seconds": "1696750536",
+        "timer_format_version": "0.1.0",
+        "unity_version": "2022.3.9f1"
+    },
+    "self": 8486.1034496,
+    "total": 23189.4048096
+}
