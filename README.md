@@ -2,16 +2,16 @@
 
 *Updated on 2023.10.12.*
 
-- [Environment Preparation](#Environment Preparation)
-- [Model Training](#Model Training)
-- [References](#References)
+- [Environment Preparation](#environment-preparation)
+- [Model Training](#model-training)
+- [References](#references)
 
 ## Environment Preparation
 
 On Windows:
 
-- [Python Setup](#Python Setup)
-- [Unity Setup](#Unity Setup)
+- [Python Setup](#python-setup)
+- [Unity Setup](#unity-setup)
 
 ### Python Setup
 
@@ -55,11 +55,11 @@ If you prefer not to use Anaconda, just install above packages in your Python 3.
 
 ## Model Training
 
-- [Load Training Scene](#Load Training Scene)
-- [Adjust Training Configurations (Optional)](#Adjust Training Configurations (Optional))
-- [Start Training Session](#Start Training Session)
-- [Visualize Training Results](#Visualize Training Results)
-- [Acquire Trained Model](#Acquire Trained Model)
+- [Load Training Scene](#load-training-scene)
+- [Adjust Training Configurations (Optional)](#adjust-training-configurations-optional)
+- [Start Training Session](#start-training-session)
+- [Visualize Training Results](#visualize-training-results)
+- [Acquire Trained Model](#acquire-trained-model)
 
 ### Load Training Scene
 
