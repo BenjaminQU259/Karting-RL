@@ -39,6 +39,7 @@ namespace KartGame.AI
         #region Training Modes
         [Tooltip("Are we training the agent or is the agent production ready?")]
         public AgentMode Mode = AgentMode.Training;
+
         [Tooltip("What is the initial checkpoint the agent will go to? This value is only for inferencing.")]
         public ushort InitCheckpointIndex;
         #endregion
@@ -47,29 +48,36 @@ namespace KartGame.AI
         [Header("Observation Params")]
         [Tooltip("What objects should the raycasts hit and detect?")]
         public LayerMask Mask;
+
         [Tooltip("Sensors contain ray information to sense out the world, you can have as many sensors as you need.")]
         public Sensor[] Sensors;
-        [Header("Checkpoints"), Tooltip("What are the series of checkpoints for the agent to seek and pass through?")]
+
+        [Header("Checkpoints")]
+        [Tooltip("What are the series of checkpoints for the agent to seek and pass through?")]
         public Collider[] Colliders;
+
         [Tooltip("What layer are the checkpoints on? This should be an exclusive layer for the agent to use.")]
         public LayerMask CheckpointMask;
 
         [Space]
-        [Tooltip("Would the agent need a custom transform to be able to raycast and hit the track? " +
-            "If not assigned, then the root transform will be used.")]
+        [Tooltip("Would the agent need a custom transform to be able to raycast and hit the track? If not assigned, then the root transform will be used.")]
         public Transform AgentSensorTransform;
         #endregion
 
         #region Rewards
         [Header("Rewards")]
-        [Tooltip("What penatly is given when the agent crashes?")]
+        [Tooltip("What penalty is given when the agent crashes?")]
         public float HitPenalty = -1f;
+
         [Tooltip("How much reward is given when the agent successfully passes the checkpoints?")]
         public float PassCheckpointReward;
+
         [Tooltip("Should typically be a small value, but we reward the agent for moving in the right direction.")]
         public float TowardsCheckpointReward;
+
         [Tooltip("Typically if the agent moves faster, we want to reward it for finishing the track quickly.")]
         public float SpeedReward;
+
         [Tooltip("Reward the agent when it keeps accelerating")]
         public float AccelerationReward;
         #endregion
@@ -78,9 +86,11 @@ namespace KartGame.AI
         [Header("Inference Reset Params")]
         [Tooltip("What is the unique mask that the agent should detect when it falls out of the track?")]
         public LayerMask OutOfBoundsMask;
+
         [Tooltip("What are the layers we want to detect for the track and the ground?")]
         public LayerMask TrackMask;
-        [Tooltip("How far should the ray be when casted? For larger karts - this value should be larger too.")]
+
+        [Tooltip("How far should the ray be when cast? For larger karts - this value should be larger too.")]
         public float GroundCastDistance;
         #endregion
 
@@ -90,30 +100,33 @@ namespace KartGame.AI
         public bool ShowRaycasts;
         #endregion
 
-        ArcadeKart m_Kart;
-        bool m_Acceleration;
-        bool m_Brake;
-        float m_Steering;
-        int m_CheckpointIndex;
+        private ArcadeKart m_Kart;
+        private bool m_Acceleration;
+        private bool m_Brake;
+        private float m_Steering;
+        private int m_CheckpointIndex;
 
-        bool m_EndEpisode;
-        float m_LastAccumulatedReward;
+        private bool m_EndEpisode;
+        private float m_LastAccumulatedReward;
 
-        void Awake()
+        private void Awake()
         {
             m_Kart = GetComponent<ArcadeKart>();
-            if (AgentSensorTransform == null) AgentSensorTransform = transform;
+
+            if (AgentSensorTransform == null)
+                AgentSensorTransform = transform;
         }
 
-        void Start()
+        private void Start()
         {
             // If the agent is training, then at the start of the simulation, pick a random checkpoint to train the agent.
             OnEpisodeBegin();
 
-            if (Mode == AgentMode.Inferencing) m_CheckpointIndex = InitCheckpointIndex;
+            if (Mode == AgentMode.Inferencing)
+                m_CheckpointIndex = InitCheckpointIndex;
         }
 
-        void Update()
+        private void Update()
         {
             if (m_EndEpisode)
             {
@@ -124,7 +137,7 @@ namespace KartGame.AI
             }
         }
 
-        void LateUpdate()
+        private void LateUpdate()
         {
             switch (Mode)
             {
@@ -149,7 +162,7 @@ namespace KartGame.AI
             }
         }
 
-        void OnTriggerEnter(Collider other)
+        private void OnTriggerEnter(Collider other)
         {
             var maskedValue = 1 << other.gameObject.layer;
             var triggered = maskedValue & CheckpointMask;
@@ -164,9 +177,9 @@ namespace KartGame.AI
             }
         }
 
-        void FindCheckpointIndex(Collider checkPoint, out int index)
+        private void FindCheckpointIndex(Collider checkPoint, out int index)
         {
-            for (int i = 0; i < Colliders.Length; i++)
+            for (var i = 0; i < Colliders.Length; i++)
             {
                 if (Colliders[i].GetInstanceID() == checkPoint.GetInstanceID())
                 {
@@ -177,17 +190,14 @@ namespace KartGame.AI
             index = -1;
         }
 
-        float Sign(float value)
+        private float Sign(float value)
         {
-            if (value > 0)
+            return value switch
             {
-                return 1;
-            }
-            if (value < 0)
-            {
-                return -1;
-            }
-            return 0;
+                > 0 => 1,
+                < 0 => -1,
+                _ => 0
+            };
         }
 
         public override void CollectObservations(VectorSensor sensor)
@@ -208,9 +218,8 @@ namespace KartGame.AI
 
             m_LastAccumulatedReward = 0.0f;
             m_EndEpisode = false;
-            for (var i = 0; i < Sensors.Length; i++)
+            foreach (var current in Sensors)
             {
-                var current = Sensors[i];
                 var xform = current.Transform;
                 var hit = Physics.Raycast(AgentSensorTransform.position, xform.forward, out var hitInfo,
                     current.RayDistance, Mask, QueryTriggerInteraction.Ignore);
@@ -275,12 +284,10 @@ namespace KartGame.AI
                     m_Brake = false;
                     m_Steering = 0f;
                     break;
-                default:
-                    break;
             }
         }
 
-        void InterpretDiscreteActions(ActionBuffers actions)
+        private void InterpretDiscreteActions(ActionBuffers actions)
         {
             m_Steering = actions.DiscreteActions[0] - 1f;
             m_Acceleration = actions.DiscreteActions[1] >= 1.0f;
